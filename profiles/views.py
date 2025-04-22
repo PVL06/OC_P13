@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 
 from profiles.models import Profile
 
@@ -16,7 +16,7 @@ def index(request):
     Returns:
         HttpResponse: The rendered HTML page with the list of profiles.
     """
-    profiles_list = Profile.objects.all()
+    profiles_list = get_list_or_404(Profile)
     context = {'profiles_list': profiles_list}
     return render(request, 'profiles/index.html', context)
 
@@ -35,6 +35,6 @@ def profile(request, username):
     Returns:
         HttpResponse: The rendered HTML page with the profile's details.
     """
-    profile = Profile.objects.get(user__username=username)
+    profile = get_object_or_404(Profile, user__username=username)
     context = {'profile': profile}
     return render(request, 'profiles/profile.html', context)

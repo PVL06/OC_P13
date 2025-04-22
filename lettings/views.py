@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 
 from lettings.models import Letting
 
@@ -16,7 +16,7 @@ def index(request):
     Returns:
         HttpResponse: The rendered HTML page with the list of lettings.
     """
-    lettings_list = Letting.objects.all()
+    lettings_list = get_list_or_404(Letting)
     context = {'lettings_list': lettings_list}
     return render(request, 'lettings/index.html', context)
 
@@ -35,7 +35,7 @@ def letting(request, letting_id):
     Returns:
         HttpResponse: The rendered HTML page with the letting's details.
     """
-    letting = Letting.objects.get(id=letting_id)
+    letting = get_object_or_404(Letting, id=letting_id)
     context = {
         'title': letting.title,
         'address': letting.address,
