@@ -1,5 +1,6 @@
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse, resolve
+from django.db.utils import IntegrityError
 
 from lettings.views import letting, index
 from lettings.models import Letting, Address
@@ -62,20 +63,43 @@ class LettingsViewsTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-# class AddressAndLettingModelTests(TestCase):
-#     """
-#     Test class for the Address model.
-#     """
-#     def test_address_creation(self):
-#         """
-#         Test the creation of an Address instance and its string representation.
-#         """
-#         address = Address.objects.create(
-#             number=1,
-#             street='Test Street',
-#             city='Test City',
-#             state='TS',
-#             zip_code=12345,
-#             country_iso_code='TST'
-#         )
-#         self.assertEqual(str(address), '1 Test Street')
+class AddressModelTests(TestCase):
+    """
+    Test class for the Address model.
+    """
+    def test_address_creation(self):
+        address = Address.objects.create(
+            number=123,
+            street='Test Street',
+            city='Test City',
+            state='TS',
+            zip_code=12345,
+            country_iso_code='TST'
+        )
+        self.assertEqual(str(address), '123 Test Street')
+
+
+class LettingModelTests(TestCase):
+    """
+    Test class for the Letting model.
+    """
+
+    def test_letting_creation_and_relation(self):
+        address = Address.objects.create(
+            number=123,
+            street='Test Street',
+            city='Test City',
+            state='TS',
+            zip_code=12345,
+            country_iso_code='TST'
+        )
+        letting = Letting.objects.create(
+            title='Test Letting',
+            address=address
+        )
+        self.assertEqual(str(letting), 'Test Letting')
+        self.assertEqual(letting.address, address)
+
+    def test_letting_without_address(self):
+        with self.assertRaises(IntegrityError):
+            Letting.objects.create(title='Test Letting')
