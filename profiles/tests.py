@@ -65,7 +65,8 @@ class ProfileModelTests(TestCase):
     def test_profile_model(self):
         """
         Test the Profile model for:
-        creation, favorite_city field, string representation, user relation, and favorite_city field not null.
+        creation, favorite_city field, string representation, user relation
+        and favorite_city field not null.
         """
         user = User.objects.create_user(
             username='testuser',
