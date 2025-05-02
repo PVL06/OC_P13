@@ -18,11 +18,9 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
-# remove for render
 EXPOSE 8000
 
-# replace port 8000 by $PORT for render
 CMD ["sh", "-c", \
     "python manage.py migrate && \
     python manage.py collectstatic --noinput && \
-    gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:8000"]
+    gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
