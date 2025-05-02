@@ -64,7 +64,7 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ["pvl_lettings.onrender.com"]
+    ALLOWED_HOSTS = ["pvl-lettings.onrender.com"]
 
 
 # Application definition
