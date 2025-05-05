@@ -15,4 +15,16 @@ def index(request):
 
 
 def error_500(request):
+    """
+    Handle 500 server error.
+
+    This view function is called when a 500 server error occurs. It raises an
+    exception to simulate the error.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Raises:
+        Exception: Always raises an exception with the message "Error 500".
+    """
     raise Exception("Error 500")
