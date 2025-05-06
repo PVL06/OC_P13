@@ -10,7 +10,7 @@ Orange County Lettings documentation
    Ce projet s'inscrit dans le cadre du parcours "Développeur d'application Python" sur OpenClassrooms et a un but uniquement pédagogique.
 
 | Le projet concerne la startup Orange Country Lettings, spécialisée dans la location de biens immobiliers.
-| Le site web est construit avec le framework Django 3.2.
+| Le site web est construit avec le framework Django 3.2 et une base de donnée SQLite.
 | La base du projet est disponible sur ce dépôt GitHub : https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.
 
 Les objectifs sont les suivants :
@@ -26,4 +26,5 @@ Les objectifs sont les suivants :
    :caption: Contents:
 
    architecture
-   environnement
+   installation
+   pipeline

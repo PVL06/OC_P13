@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline CI/CD &mdash; Orange_County_Lettings  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Orange_County_Lettings
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du projet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pipeline CI/CD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contenairisation">Contenairisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploiement">Déploiement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-pour-github-actions">Configuration pour Github Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-pour-render">Configuration pour Render</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Orange_County_Lettings</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pipeline CI/CD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pipeline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pipeline-ci-cd">
+<h1>Pipeline CI/CD<a class="headerlink" href="#pipeline-ci-cd" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<dl class="simple">
+<dt>Avant de pousser des modifications sur le repository et enclencher le pipeline</dt><dd><ul class="simple">
+<li><p>Configurer les variable d’environnement sur Github</p></li>
+<li><p>Avoir un compte sur Render et configurer l’environement</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<p>Le pipeline CI/CD est implémenté pour etre utilisé avec Github Actions, le ficher de configuration se trouve dans .github/workflows/main.yml
+Le pipeline se déclenche lors d’un push ou d’une pull request sur le repository, sur la branche <strong>master</strong> le pipeline effectue toute les étapes et sur la branche <strong>dev</strong> seul les tests sont effectué.</p>
+<dl class="simple">
+<dt>Il contient plusieurs étapes:</dt><dd><ol class="arabic simple">
+<li><p>Tests</p></li>
+<li><p>Contenairisation avec Docker</p></li>
+<li><p>Déploiement automatique (optionel)</p></li>
+</ol>
+</dd>
+</dl>
+<section id="tests">
+<h3>Tests<a class="headerlink" href="#tests" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Les tests du pipeline contiennent :</dt><dd><ul class="simple">
+<li><p>les test unitaire et d’intégration contenu dans les fichier tests de chaque application</p></li>
+<li><p>s’assure d’une couverture des tests supérieur a 80%</p></li>
+<li><p>test si erreur sur le linting</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="contenairisation">
+<h3>Contenairisation<a class="headerlink" href="#contenairisation" title="Link to this heading"></a></h3>
+<p>Création d’une image Docker grâce au Dockerfile présent dans le projet, basé sur l’image python:3.11-slim et une fois contenairisé lance l’application sur un serveur Gunicorn.
+Envoie l’image une fois construite sur le Docker Hub.</p>
+</section>
+<section id="deploiement">
+<h3>Déploiement<a class="headerlink" href="#deploiement" title="Link to this heading"></a></h3>
+<p>L’application est deployer sur Render (<a class="reference external" href="https://render.com/">https://render.com/</a>).
+Le deploiement peut etre automatique ou manuel suivant la variable d’environnement AUTO_DEPLOY sur Github Secret.</p>
+</section>
+</section>
+<section id="configuration-pour-github-actions">
+<h2>Configuration pour Github Actions<a class="headerlink" href="#configuration-pour-github-actions" title="Link to this heading"></a></h2>
+<p>Pour envoyer l’image construite sur le Docker Hub il faut renseigner son username et password de manière sécurisé avec Github Sercet.
+Choisir le deploiement automatique ou non grâce a la variable AUTO_DEPLOY</p>
+<dl class="simple">
+<dt>Sur Github, un fois dans le projet allez dans Settings -&gt; Environments -&gt; Secrets and variable.</dt><dd><ul class="simple">
+<li><p><strong>DOCKER_USERNAME</strong>: &lt;Nom d’utilisateur Docker&gt;</p></li>
+<li><p><strong>DOCKER_PASSWORD</strong>: &lt;Mot de passe Docker&gt;</p></li>
+<li><p><strong>AUTO_DEPLOY</strong>: &lt;True&gt; pour deploiement automatique sinon &lt;False&gt;</p></li>
+<li><p><strong>DEPLOY_HOOK</strong>: &lt;URL privé Deploy Hook&gt;</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="configuration-pour-render">
+<h2>Configuration pour Render<a class="headerlink" href="#configuration-pour-render" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>Une fois inscrit sur Render, créer un nouveau service puis configurer:</dt><dd><ul class="simple">
+<li><p>Source Code: Existing image</p></li>
+<li><p>Image URL: l’url de votre image sur le Docker Hub</p></li>
+<li><p>Cliquer sur Connect</p></li>
+<li><p>Name: Le nom du service qui sera votre futur addresse du type &lt;nom_du_service&gt;.onrender.com.</p></li>
+<li><p>Le type d’instance (version gratuite possible)</p></li>
+<li><p>Copier votre URL privé Deploy Hook et la mettre dans Github Secret</p></li>
+</ul>
+</dd>
+<dt>Configurer les variables d’environnement de votre nouveau service:</dt><dd><ul class="simple">
+<li><p><strong>DEBUG:</strong> False</p></li>
+<li><p><strong>HOST</strong>: &lt;nom_du_service&gt;.onrender.com</p></li>
+<li><p><strong>SECRET_KEY</strong>: &lt;clé secrete pour Django&gt;</p></li>
+<li><p><strong>SENTRY_DSN</strong>: &lt;url sentry dsn&gt;</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, pvl.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

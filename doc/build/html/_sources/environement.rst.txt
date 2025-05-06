@@ -1,0 +1,22 @@
+#############
+Environnement
+#############
+
+Environnement de développement
+==============================
+
+
+Prérequis:
+    * Avoir cloné le projet ou avoir télécharger l'image depuis le Docker GitHub
+    * Etre inscrit sur sentry et avoir son DSN
+
+Ajouter un fichier .env a la racine du projet qui contiendra les variables d'environnement pour le lancement en local du site ou la création de container.
+
+Template pour le fichier .env
+
+.. code-block::
+
+    SENTRY_DSN=<your sentry dsn>
+    SECRET_KEY=<your secret key>
+    DEBUG=True
+
