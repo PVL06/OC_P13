@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pipeline CI/CD" href="pipeline.html" />
     <link rel="prev" title="Architecture du projet" href="architecture.html" /> 
 </head>
 
@@ -52,6 +53,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#lancement-du-site">Lancement du site</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline CI/CD</a></li>
 </ul>
 
         </div>
@@ -104,17 +106,23 @@ python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </s
 <section id="variables-d-environnement">
 <h2>Variables d’environnement<a class="headerlink" href="#variables-d-environnement" title="Link to this heading"></a></h2>
 <dl class="simple">
-<dt>Prérequis:</dt><dd><ul class="simple">
-<li><p>Avoir cloné le projet</p></li>
-<li><p>Etre inscrit sur sentry et avoir son DSN</p></li>
+<dt>Pour commencer, assurez-vous de remplir les conditions suivantes :</dt><dd><ul class="simple">
+<li><p><strong>Cloner le projet</strong> : Assurez-vous d’avoir cloné le dépôt du projet sur votre machine locale.</p></li>
+<li><p><strong>Compte Sentry</strong> : Inscrivez-vous sur Sentry et obtenez votre DSN (Data Source Name).</p></li>
 </ul>
 </dd>
 </dl>
-<p>Ajouter un fichier .env a la racine du projet qui contiendra les variables d’environnement pour le lancement en local.</p>
-<p>Template pour le fichier .env</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SENTRY_DSN</span><span class="o">=&lt;</span><span class="n">your</span> <span class="n">sentry</span> <span class="n">dsn</span><span class="o">&gt;</span>
+<p><strong>Configuration du fichier .env</strong></p>
+<p>Ajoutez un fichier .env à la racine du projet.
+Ce fichier contiendra les variables d’environnement nécessaires pour le lancement en local.
+Ajouter un fichier .env a la racine du projet qui contiendra les variables d’environnement pour le lancement en local.</p>
+<p>Voici un exemple de contenu pour le fichier .env :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Django Settings</span>
 <span class="n">SECRET_KEY</span><span class="o">=&lt;</span><span class="n">your</span> <span class="n">secret</span> <span class="n">key</span><span class="o">&gt;</span>
 <span class="n">DEBUG</span><span class="o">=</span><span class="kc">True</span>
+
+<span class="c1"># Sentry Settings</span>
+<span class="n">SENTRY_DSN</span><span class="o">=&lt;</span><span class="n">your</span> <span class="n">sentry</span> <span class="n">dsn</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
@@ -126,13 +134,13 @@ python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </s
 </section>
 <section id="lancement-du-serveur-depuis-l-image-du-docker-hub">
 <h2>Lancement du serveur depuis l’image du Docker Hub<a class="headerlink" href="#lancement-du-serveur-depuis-l-image-du-docker-hub" title="Link to this heading"></a></h2>
-<dl class="simple">
-<dt>prérequis:</dt><dd><ul class="simple">
-<li><p>avoir le ficher .env configuré</p></li>
-<li><p>Avoir Docker installé sur sa machine</p></li>
+<p>Avant de commencer, assurez-vous de remplir les conditions suivantes :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Fichier .env configuré</strong> : Assurez-vous d’avoir configuré le fichier .env à la racine du projet avec les variables d’environnement nécessaires.</p></li>
+<li><p><strong>Docker installé</strong> : Assurez-vous d’avoir Docker installé sur votre machine.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>pvldocker/lettings:latest
 docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>pvldocker/lettings:latest
 </pre></div>
@@ -140,12 +148,11 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
 </section>
 <section id="lancement-du-site">
 <h2>Lancement du site<a class="headerlink" href="#lancement-du-site" title="Link to this heading"></a></h2>
-<dl>
-<dt>Dans votre navigateur entrez l’adresse:</dt><dd><div class="line-block">
-<div class="line">127.0.0.1:8000</div>
-<div class="line">ou</div>
-<div class="line">localhost:8000</div>
-</div>
+<dl class="simple">
+<dt>Dans votre navigateur, entrez l’une des adresses suivantes :</dt><dd><ul class="simple">
+<li><p>127.0.0.1:8000</p></li>
+<li><p>localhost:8000</p></li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -156,6 +163,7 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture du projet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pipeline.html" class="btn btn-neutral float-right" title="Pipeline CI/CD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

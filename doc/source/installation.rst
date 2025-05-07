@@ -32,19 +32,26 @@ Installation des dépendances:
 Variables d'environnement
 =========================
 
-Prérequis:
-    * Avoir cloné le projet
-    * Etre inscrit sur sentry et avoir son DSN
+Pour commencer, assurez-vous de remplir les conditions suivantes :
+   * **Cloner le projet** : Assurez-vous d'avoir cloné le dépôt du projet sur votre machine locale.
+   * **Compte Sentry** : Inscrivez-vous sur Sentry et obtenez votre DSN (Data Source Name).
 
+**Configuration du fichier .env**
+
+Ajoutez un fichier .env à la racine du projet.
+Ce fichier contiendra les variables d'environnement nécessaires pour le lancement en local.
 Ajouter un fichier .env a la racine du projet qui contiendra les variables d'environnement pour le lancement en local.
 
-Template pour le fichier .env
+Voici un exemple de contenu pour le fichier .env :
 
 .. code-block::
 
-   SENTRY_DSN=<your sentry dsn>
+   # Django Settings
    SECRET_KEY=<your secret key>
    DEBUG=True
+
+   # Sentry Settings
+   SENTRY_DSN=<your sentry dsn>
 
 Lancement du serveur en local
 =============================
@@ -56,9 +63,11 @@ Lancement du serveur en local
 Lancement du serveur depuis l'image du Docker Hub
 =================================================
 
-prérequis:
-    * avoir le ficher .env configuré
-    * Avoir Docker installé sur sa machine
+Avant de commencer, assurez-vous de remplir les conditions suivantes :
+
+   * **Fichier .env configuré** : Assurez-vous d'avoir configuré le fichier .env à la racine du projet avec les variables d'environnement nécessaires.
+   * **Docker installé** : Assurez-vous d'avoir Docker installé sur votre machine.
+
 
 .. code-block:: bash
 
@@ -68,8 +77,7 @@ prérequis:
 Lancement du site
 =================
 
-Dans votre navigateur entrez l'adresse:
-    | 127.0.0.1:8000
-    | ou 
-    | localhost:8000
+Dans votre navigateur, entrez l'une des adresses suivantes :
+   * 127.0.0.1:8000
+   * localhost:8000
 

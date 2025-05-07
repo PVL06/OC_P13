@@ -22,7 +22,7 @@ Les objectifs sont les suivants :
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
 
    architecture

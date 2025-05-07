@@ -2,6 +2,10 @@
 Architecture du projet
 ######################
 
+************
+Introduction
+************
+
 Le projet est divisé en trois applications:
    * **oc_lettings_site** : Point d'entrée du projet, contenant les paramètres (settings), la configuration des URLs de base, ainsi que la vue pour la page d'accueil.
    * **lettings** : Contient la partie dédiée à la gestion des locations de biens.
