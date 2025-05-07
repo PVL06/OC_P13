@@ -39,30 +39,59 @@ jobs:
           pytest --cov=. --cov-fail-under=80
           
   build-and-push:
-      needs: test
-      runs-on: ubuntu-latest
-      if: github.ref == 'refs/heads/master'
-  
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
-  
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v2
-  
-        - name: Log in to Docker Hub
-          uses: docker/login-action@v2
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-  
-        - name: Build and push Docker image
-          uses: docker/build-push-action@v5
-          with:
-            context: .
-            push: true
-            tags: |
-              pvldocker/lettings:latest
-              pvldocker/lettings:${{ github.sha }}
-            build-args: |
-              COMMIT_SHA=${{ github.sha }}
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    outputs:
+      continue: ${{ steps.set-deploy-flag.outputs.continue }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            pvldocker/lettings:latest
+            pvldocker/lettings:${{ github.sha }}
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+
+      - name: Set deploy condition flag
+        id: set-deploy-flag
+        run: |
+          if [ "${{ secrets.AUTO_DEPLOY }}" == "True" ]; then
+            echo "continue=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "continue=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: needs.build-and-push.outputs.continue == 'true' && github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Trigger Render deploy hook
+        run: |
+          echo "▶️ Triggering Render deploy hook..."
+          sleep 10
+          response=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_DEPLOY_HOOK }}")
+          if [ "$response" -ne 200 ]; then
+            echo "❌ Deploy hook failed with status $response"
+            exit 1
+          else
+            echo "✅ Deploy hook triggered successfully"
+          fi
