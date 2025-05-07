@@ -9,6 +9,7 @@ import django
 
 sys.path.insert(0, os.path.abspath('../..'))
 
+os.environ.setdefault("SECRET_KEY", "dummy-secret-key-for-docs")
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'oc_lettings_site.settings')
 django.setup()
 
