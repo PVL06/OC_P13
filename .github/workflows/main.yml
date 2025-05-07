@@ -87,10 +87,11 @@ jobs:
       - name: Trigger Render deploy hook
         run: |
           echo "▶️ Triggering Render deploy hook..."
+          sleep 10
           response=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_DEPLOY_HOOK }}")
           if [ "$response" -ne 200 ]; then
             echo "❌ Deploy hook failed with status $response"
             exit 1
           else
             echo "✅ Deploy hook triggered successfully"
-          fi  
+          fi
