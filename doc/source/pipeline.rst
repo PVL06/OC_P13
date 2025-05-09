@@ -14,17 +14,17 @@ Introduction
 
 Le pipeline CI/CD est implémenté pour être utilisé avec GitHub Actions. Le fichier de configuration se trouve dans .github/workflows/main.yml.
 
+
+Le pipeline contient plusieurs étapes :
+
+    * **test** : Exécution des tests automatisés pour vérifier la qualité du code.
+    * **build-and-push** : Création d'une image Docker pour l'application et envoi sur le Docker Hub.
+    * **deploy** (optionnel) : Déploiement de l'application sur l'environnement de production.
+
 Le pipeline se déclenche lors d'un push ou d'une pull request sur le repository. Voici les actions spécifiques pour chaque branche :
 
     * **Branche master** : Le pipeline exécute toutes les étapes.
     * **Branche dev** : Seuls les tests sont exécutés.
-
-Le pipeline contient plusieurs étapes :
-
-    * **Tests** : Exécution des tests automatisés pour vérifier la qualité du code.
-    * **Conteneurisation avec Docker** : Création d'une image Docker pour l'application.
-    * **Déploiement automatique** (optionnel) : Déploiement de l'application sur l'environnement de production.
-
 
 Tests
 -----

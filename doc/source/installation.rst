@@ -40,7 +40,6 @@ Pour commencer, assurez-vous de remplir les conditions suivantes :
 
 Ajoutez un fichier .env à la racine du projet.
 Ce fichier contiendra les variables d'environnement nécessaires pour le lancement en local.
-Ajouter un fichier .env a la racine du projet qui contiendra les variables d'environnement pour le lancement en local.
 
 Voici un exemple de contenu pour le fichier .env :
 

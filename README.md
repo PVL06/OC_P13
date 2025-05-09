@@ -1,77 +1,126 @@
-## Résumé
+## :one: Introduction
 
-Site web d'Orange County Lettings
+Ce projet s'inscrit dans le cadre du parcours "Développeur d'application Python" sur OpenClassrooms et a un but uniquement pédagogique.  
 
-## Développement local
+Le projet concerne la startup Orange Country Lettings, spécialisée dans la location de biens immobiliers.  
+Le site web est construit avec le framework Django 3.2 et une base de donnée SQLite.  
+La base du projet est disponible sur ce dépôt GitHub : https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.  
 
-### Prérequis
+:link: [Documentation disponible sur Read the Docs](https://orange-project-13.readthedocs.io/en/latest/index.html)
+
+## :two: Développement en local
+
+#### Prérequis
 
 - Compte GitHub avec accès en lecture à ce repository
 - Git CLI
-- SQLite3 CLI
-- Interpréteur Python, version 3.6 ou supérieure
+- Docker CLI (si contenairisation)
+- Compte Sentry avec un projet configuré et une clé sentry DSN
 
-Dans le reste de la documentation sur le développement local, il est supposé que la commande `python` de votre OS shell exécute l'interpréteur Python ci-dessus (à moins qu'un environnement virtuel ne soit activé).
+#### Installation
+Cloner le repository
+```
+git clone https://github.com/PVL06/OC_P13
+```
 
-### macOS / Linux
+Environnement virtuel
+```
+cd OC_P13
+python -m venv .venv
 
-#### Cloner le repository
+# Activation sur linux/macOS
+source .venv/bin/activate
 
-- `cd /path/to/put/project/in`
-- `git clone https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git`
+# Activation sur windows
+.venv/script/activate
+```
 
-#### Créer l'environnement virtuel
+Dépendances
+```
+pip install -r requirements.txt
+```
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `python -m venv venv`
-- `apt-get install python3-venv` (Si l'étape précédente comporte des erreurs avec un paquet non trouvé sur Ubuntu)
-- Activer l'environnement `source venv/bin/activate`
-- Confirmer que la commande `python` exécute l'interpréteur Python dans l'environnement virtuel
-`which python`
-- Confirmer que la version de l'interpréteur Python est la version 3.6 ou supérieure `python --version`
-- Confirmer que la commande `pip` exécute l'exécutable pip dans l'environnement virtuel, `which pip`
-- Pour désactiver l'environnement, `deactivate`
+#### Variables d'environnement
 
-#### Exécuter le site
+Ajoutez un fichier .env à la racine du projet.  
+Ce fichier contiendra les variables d'environnement nécessaires pour le lancement en local.  
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `pip install --requirement requirements.txt`
-- `python manage.py runserver`
-- Aller sur `http://localhost:8000` dans un navigateur.
-- Confirmer que le site fonctionne et qu'il est possible de naviguer (vous devriez voir plusieurs profils et locations).
+Voici un exemple de contenu pour le fichier .env:
+```
+# Django Settings
+SECRET_KEY=<your secret key>
+DEBUG=True
 
-#### Linting
+# Sentry Settings
+SENTRY_DSN=<your sentry dsn>
+```
+#### Lancement du serveur en local
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `flake8`
+```
+python manage.py runserver
+```
+Le site est disponible sur votre navigateur à l'adresse `127.0.0.1:8000` ou `localhost:8000`
+L'interface d'administration est displonible à l'URL `http://localhost:8000/admin`
+Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
 
-#### Tests unitaires
+#### Image Docker en local
+Construction d'une image
+```
+docker build -t <image-name>:<tag> .
+```
+Lancement d'un containeur
+```
+docker run --rm -d -p 8000:8000 --env-file .env <image-name>:<tag>
+```
+Le site et l'interface d'administration est disponible sur votre navigateur pareil au lancement via python manage.py runserver.
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `pytest`
+## :three: Pipeline CI/CD
 
-#### Base de données
+Le pipeline CI/CD est implémenté pour être utilisé avec GitHub Actions. Le fichier de configuration se trouve dans .github/workflows/main.yml.  
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- Ouvrir une session shell `sqlite3`
-- Se connecter à la base de données `.open oc-lettings-site.sqlite3`
-- Afficher les tables dans la base de données `.tables`
-- Afficher les colonnes dans le tableau des profils, `pragma table_info(Python-OC-Lettings-FR_profile);`
-- Lancer une requête sur la table des profils, `select user_id, favorite_city from
-  Python-OC-Lettings-FR_profile where favorite_city like 'B%';`
-- `.quit` pour quitter
+Le pipeline contient 3 étapes:
+- **test**: tests unitaire et d'intégration, test de couverture (valide si supérieur à 80%), test de linting
+- **build-and-push**: Création d'une image Docker pour l'application et envoi sur le Docker Hub.
+- **deploy**: L'application est déployée sur Render (optionnel).
 
-#### Panel d'administration
+#### Prérequis
 
-- Aller sur `http://localhost:8000/admin`
-- Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
+- Compte sur Render
+- Compte Github
 
-### Windows
+#### Configuration pour Github Actions
 
-Utilisation de PowerShell, comme ci-dessus sauf :
+Pour envoyer l'image Docker construite sur Docker Hub, vous devez renseigner votre nom d'utilisateur et votre mot de passe de manière sécurisée en utilisant les secrets GitHub.  
+Vous pouvez choisir entre un déploiement automatique ou manuel en configurant la variable d'environnement AUTO_DEPLOY.  
 
-- Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
-- Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+Sur Github, un fois dans le projet allez dans Settings -> Environments -> Secrets and variable et definir les variables:
+- **DOCKER_USERNAME**: `Nom d'utilisateur Docker`
+- **DOCKER_PASSWORD**: `Mot de passe Docker`
+- **AUTO_DEPLOY**: `True` pour deploiement automatique sinon `False`
+- **RENDER_DEPLOY_HOOK**: `URL privé Deploy Hook`
+
+#### Configuration pour Render
+Créer un nouveau service :
+- Source Code : Sélectionnez Existing image.
+- Image URL : Entrez l'URL de votre image sur Docker Hub.
+- Cliquez sur Connect.
+
+Configurer les paramètres du service :
+- Name : Choisissez un nom pour le service. Ce nom sera utilisé pour générer l'adresse de votre service, par exemple <nom_du_service>.onrender.com.
+- Type d'instance : Sélectionnez le type d'instance souhaité (la version gratuite est disponible).
+
+Configurer le Deploy Hook :
+- Copiez l'URL privée du Deploy Hook fournie par Render.
+- Ajoutez cette URL dans les secrets GitHub de votre projet.
+
+Configurer les variables d'environnement :
+- **DEBUG** : `False`
+- **HOST** : `nom_du_service.onrender.com`
+- **SECRET_KEY** : `clé secrète pour Django`
+- **SENTRY_DSN** : `URL Sentry DSN`
+
+#### Lancement du pipeline
+
+Une fois les configurations faites, le pipeline se déclenche lors d'un push ou d'une pull request sur le repository.  
+- Branche **master**: Toute les étapes du pipeline 
+- Branche **dev**: Seulement la première étape (Test)
