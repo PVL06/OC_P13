@@ -74,6 +74,33 @@ docker run --rm -d -p 8000:8000 --env-file .env <image-name>:<tag>
 ```
 Le site et l'interface d'administration est disponible sur votre navigateur pareil au lancement via python manage.py runserver.
 
+#### Base de donnée, linting & tests
+1. BDD
+    Ouverture de la base de donnée
+    ```
+    sqlite3 oc-lettings_site.sqlite3
+    ```
+    Voir les tables
+    ```
+    .tables
+    ```
+    Exemple de requête sur la table lettings_address
+    ```
+    SELECT * FROM lettings_address
+    ``` 
+    Quitter
+    ```
+    .quit
+    ```
+2. Linting
+    ```
+    flake8 .
+    ```
+3. Lancer les tests et la couverture des test
+    ```
+    pytest -v --cov=.
+    ```
+
 ## :three: Pipeline CI/CD
 
 Le pipeline CI/CD est implémenté pour être utilisé avec GitHub Actions. Le fichier de configuration se trouve dans .github/workflows/main.yml.  
